@@ -1,6 +1,6 @@
 #include "floor.hpp"
-#define ROWS 360
-#define COLS 360
+#define ROWS 400
+#define COLS 400
 #define CELLHEIGHT 5
 #define CELLWIDTH 10
 #define HSQUARECOUNT (COLS / CELLWIDTH)
@@ -37,12 +37,12 @@ bool Floor::hit(Ray &ray) const
     Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
     if (t > 0)
     {
-        std::cout << "x " << scaledVector.m_x << std::endl;
-        std::cout << "y " << scaledVector.m_y << std::endl;
+        // std::cout << "x " << scaledVector.m_x << std::endl;
+        // std::cout << "y " << scaledVector.m_y << std::endl;
         bool xCordIsOnFloor = scaledVector.m_x >= 0 && scaledVector.m_x < m_floor.size();
         bool YCordIsOnFloor = scaledVector.m_y >= 0 && scaledVector.m_y < m_floor.size();
 
-        if (m_floor[scaledVector.m_x + 200][scaledVector.m_y] == 1 && xCordIsOnFloor && YCordIsOnFloor)
+        if (xCordIsOnFloor && YCordIsOnFloor && m_floor[scaledVector.m_x][scaledVector.m_y] == 1)
         {
             return true;
         }

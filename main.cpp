@@ -71,9 +71,9 @@ int main()
     Sphere sphere2 = Sphere(Vec3D(130, 100, 50), 30);
     Sphere sphere3 = Sphere(Vec3D(180, 50, 20), 20);
 
-    // objects.push_back(&sphere1);
-    // objects.push_back(&sphere2);
-    // objects.push_back(&sphere3);
+    objects.push_back(&sphere1);
+    objects.push_back(&sphere2);
+    objects.push_back(&sphere3);
     objects.push_back(&f);
 
     RayScanner scanner = RayScanner(objects);

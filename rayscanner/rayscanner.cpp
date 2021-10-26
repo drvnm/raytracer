@@ -25,7 +25,6 @@ void RayScanner::scan()
 
             Ray startPoint = Ray(origin, dir, m_objects);
 
-            origin.show("Origin: ");
             if (startPoint.scan())
             {
                 m_screenBuffer[i][j] = "]]]";
