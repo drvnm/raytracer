@@ -1,9 +1,9 @@
 #include "floor.hpp"
-#define ROWS 400
-#define COLS 400
-#define CELLHEIGHT 5
-#define CELLWIDTH 10
-#define HSQUARECOUNT (COLS / CELLWIDTH)
+#define ROWS 2000
+#define COLS 2000
+#define GRIDSIZE (ROWS * COLS)
+#define SQUAREWIDTH 10
+#define SQAUREHEIGHT (ROWS / SQUAREWIDTH)
 
 #include "../Vec3D/vec3d.hpp"
 
@@ -15,20 +15,6 @@
 
 Floor::Floor()
 {
-    std::vector<std::vector<int>> board;
-    for (int y = 0; y < ROWS; y++)
-    {
-        std::vector<int> row(COLS);
-        for (int cx = 0; cx < HSQUARECOUNT; cx++)
-        {
-            int cy = y / CELLHEIGHT;
-            std::fill(
-                row.begin() + cx * CELLWIDTH,
-                row.begin() + (cx + 1) * CELLWIDTH,
-                (cx + cy) % 2 == 0 ? 0 : 1);
-        }
-        m_floor.push_back(row);
-    }
 }
 
 bool Floor::hit(Ray &ray) const
@@ -37,15 +23,8 @@ bool Floor::hit(Ray &ray) const
     Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
     if (t > 0)
     {
-        // std::cout << "x " << scaledVector.m_x << std::endl;
-        // std::cout << "y " << scaledVector.m_y << std::endl;
-        bool xCordIsOnFloor = scaledVector.m_x >= 0 && scaledVector.m_x < m_floor.size();
-        bool YCordIsOnFloor = scaledVector.m_y >= 0 && scaledVector.m_y < m_floor.size();
 
-        if (xCordIsOnFloor && YCordIsOnFloor && m_floor[scaledVector.m_x][scaledVector.m_y] == 1)
-        {
-            return true;
-        }
+        return (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
     }
 
     return false;

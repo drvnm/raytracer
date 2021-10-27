@@ -12,15 +12,18 @@ void RayScanner::scan()
     // shoot a ray from the camera to the screen
     // for each object in the scene, check if the ray intersects with the object
 
-    for (int i = 0; i < 400; i++)
+    for (int i = 0; i < SCREEN_WIDTH; i++)
     {
-        for (int j = 0; j < 400; j++)
+        for (int j = 0; j < SCREEN_WIDTH; j++)
         {
-            int realJ = -200 + j;
-            int realI = 200 - i;
+            // int jj = j - SCREEN_WIDTH / 2;
+            // int ii = i - SREEN_LENGTH / 2;
+            // std::cout << "i: " << ii << " j: " << jj << std::endl;
+            // int ii = i;
+            // int jj = j;
+            Vec3D endPoint = Vec3D(-200 + j, 0, 200 - i);
 
-            Vec3D endPoint = Vec3D(realJ, 0, realI);
-            Vec3D origin = Vec3D(realJ, -600, realI + 100);
+            Vec3D origin = Vec3D(0, -2000, 40);
             Vec3D dir = endPoint - origin;
 
             Ray startPoint = Ray(origin, dir, m_objects);

@@ -11,7 +11,6 @@ class Floor : public Object
 {
 public:
 
-    std::vector<std::vector<int>> m_floor;
     Floor();
     bool hit(Ray &ray) const;
 };
