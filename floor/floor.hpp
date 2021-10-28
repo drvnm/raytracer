@@ -10,7 +10,7 @@
 class Floor : public Object
 {
 public:
-
+    
     Floor();
     bool hit(Ray &ray) const;
 };

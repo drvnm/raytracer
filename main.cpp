@@ -17,9 +17,9 @@ int main()
     Floor f = Floor();
 
     std::vector<Object *> objects;
-    Sphere sphere1 = Sphere(Vec3D(-150, 30, 100), 70);
-    Sphere sphere2 = Sphere(Vec3D(0, 30, 100), 50);
-    Sphere sphere3 = Sphere(Vec3D(100, 30, 100), 30);
+    Sphere sphere1 = Sphere(Vec3D(-100, 0, 100), 70);
+    Sphere sphere2 = Sphere(Vec3D(50, 0, 100), 50);
+    Sphere sphere3 = Sphere(Vec3D(150, 0, 100), 30);
 
     objects.push_back(&sphere1);
     objects.push_back(&sphere2);

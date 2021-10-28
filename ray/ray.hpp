@@ -19,5 +19,5 @@ public:
     Ray(Vec3D const &origin, Vec3D const &direction, VPO &m_VPO);
     Ray(float xStart, float yStart, VPO &m_VPO);
 
-    bool scan();
+    int scan();
 };

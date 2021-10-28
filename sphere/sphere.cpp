@@ -9,6 +9,8 @@
 Sphere::Sphere(const Vec3D &centre, float radius)
     : m_centre(centre), m_radius(radius)
 {
+    m_type = "Sphere";
+    intensity = 1;
 }
 
 // returns distance from center to ray
@@ -21,10 +23,11 @@ float Sphere::distFromRay(const Ray &ray) const
 
 bool Sphere::hit(Ray &ray) const
 {
+
     // reflect the Ray on the hitpoint on the Sphere
     Vec3D hitpoint = hitPoint(ray);
     Vec3D normal = hitpoint - m_centre;
-    normal.norm();
+    normal = normal.unit();
 
     Vec3D v = m_centre - ray.m_origin;
     float a = ray.m_direction.dot(ray.m_direction);
@@ -39,7 +42,9 @@ bool Sphere::hit(Ray &ray) const
     }
     else
     {
-
+        // ray.m_direction.show("Incomming ray");
+        ray.m_origin = hitpoint;
+        ray.m_direction = ray.m_direction - normal * (2 * ray.m_direction.dot(normal));
         return true;
     }
 }

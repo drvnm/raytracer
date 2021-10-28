@@ -15,6 +15,9 @@
 
 Floor::Floor()
 {
+    m_type = "Floor";
+    intensity = 2;
+
 }
 
 bool Floor::hit(Ray &ray) const

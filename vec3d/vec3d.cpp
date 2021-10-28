@@ -64,3 +64,8 @@ Vec3D Vec3D::cross(Vec3D const &other)
 {
     return Vec3D(m_y * other.m_z - m_z * other.m_y, m_z * other.m_x - m_x * other.m_z, m_x * other.m_y - m_y * other.m_x);
 }
+
+Vec3D Vec3D::unit() {
+    float length = norm();
+    return Vec3D(m_x / length, m_y / length, m_z / length);
+}
