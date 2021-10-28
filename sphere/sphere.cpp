@@ -44,7 +44,7 @@ bool Sphere::hit(Ray &ray) const
     {
         // ray.m_direction.show("Incomming ray");
         ray.m_origin = hitpoint;
-        ray.m_direction = ray.m_direction - normal * (2 * ray.m_direction.dot(normal));
+        ray.m_direction = ray.m_direction -  (2 * ray.m_direction.dot(normal) * normal);
         return true;
     }
 }

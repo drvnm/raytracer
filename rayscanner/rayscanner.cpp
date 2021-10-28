@@ -29,6 +29,7 @@ void RayScanner::scan()
             Ray startPoint = Ray(origin, dir, m_objects);
 
             int intensity = startPoint.scan();
+            // m_screenBuffer[i][j] = intensity;
             if (intensity == 0)
             {
                 m_screenBuffer[i][j] = "   ";
@@ -49,7 +50,7 @@ void RayScanner::scan()
             {
                 m_screenBuffer[i][j] = "TTT";
             }
-                }
+        }
     }
     // 𝙺𝙼𝚁𝙽𝚃
 }

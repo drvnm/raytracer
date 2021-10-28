@@ -16,6 +16,9 @@ public:
     Vec3D operator+(Vec3D const &v) const;
     Vec3D operator-(Vec3D const &v) const;
     Vec3D operator*(float scalar) const;
+    friend Vec3D operator*(float scalar, Vec3D self) {
+        return self * scalar;
+    }
     Vec3D operator/(float scalar);
     bool operator==(const Vec3D &v) const;
     float norm();
