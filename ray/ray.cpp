@@ -4,21 +4,34 @@
 #include "../vec3d/vec3d.hpp"
 #include "../object/object.hpp"
 
-Ray::Ray(Vec3D const &origin, Vec3D const &direction) : m_origin(origin), m_direction(direction) {}
-Ray::Ray(Vec3D const &origin, Vec3D &direction, VPO &VPO) : m_origin(origin), m_direction(direction), m_VPO(VPO)
+Ray::Ray(Vec3D const &origin, Vec3D &direction) : m_origin(origin), m_direction(direction)
+{
+    {
+        m_direction = direction.unit();
+    }
+}
+Ray::Ray(Vec3D const &origin, Vec3D &direction, VPO &VPO) : m_origin(origin), m_VPO(VPO)
 {
     m_direction = direction.unit();
 }
 Ray::Ray(float xStart, float yStart, VPO &VPO) : m_VPO(VPO) {}
+
 int Ray::scan()
 {
+    // recursive ray
+    Vec3D direction = m_direction;
+    Vec3D origin = m_origin;
     int intensity = 0;
-    for (Object *ob : m_VPO)
+    for (Object *obOuter : m_VPO)
     {
-        if (ob->hit(*this))
+        for (Object *obOuter : m_VPO)
         {
-            intensity += ob->intensity;
+            if(obOuter->hit(*this)) {
+                intensity += obOuter->intensity;
+            }
         }
+        m_origin = origin;
+        m_direction = direction;
     }
     return intensity;
 }

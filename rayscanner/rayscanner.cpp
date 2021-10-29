@@ -1,5 +1,6 @@
 #include "rayscanner.hpp"
 #include "../ray/ray.hpp"
+#include "../sphere/sphere.hpp"
 #include <iostream>
 #define SCREEN_WIDTH 400
 #define SREEN_LENGTH 400
@@ -23,9 +24,32 @@ void RayScanner::scan()
             // int jj = j;
 
             Vec3D endPoint = Vec3D(-200 + j, 0, 200 - i);
+            Vec3D origin = Vec3D(0, -600, 20);
+            // (endPoint - origin).show("Top left corner");
+            // endPoint = Vec3D(200, 0, 200);
+            // (endPoint - origin).show("Top right corner");
+            // endPoint = Vec3D(-200, 0, -200);
+            // (endPoint - origin).show("Bottom left corner");
+            // endPoint = Vec3D(200, 0, -200);
+            // (endPoint - origin).show("Bottom right corner");
+            // endPoint = Vec3D(0, 0, 0);
+            // (endPoint - origin).show("Center");
 
-            Vec3D origin = Vec3D(0, -500, 20);
             Vec3D dir = endPoint - origin;
+            // Ray testray = Ray(origin, dir);
+            // testray.m_direction.show("first direction ray: ");
+            // Sphere testsphere = Sphere(Vec3D(1, 10, 0), 3);
+            // Sphere testsphere2 = Sphere(Vec3D(-1, -10, 0), 3);
+
+            // testsphere.hit(testray);
+            // testray.m_direction.show("bounced direction ray: ");
+            // testsphere2.hit(testray);
+            // testray.m_direction.show("bounced direction ray (2): ");
+            // testsphere.hit(testray);
+            // testray.m_direction.show("bounced direction ray (3): ");
+            // testsphere2.hit(testray);
+            // testray.m_direction.show("bounced direction ray (4): ");
+
 
             Ray startPoint = Ray(origin, dir, m_objects);
 
