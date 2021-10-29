@@ -16,7 +16,7 @@ public:
     VPO m_VPO;
 
     Ray(Vec3D const &origin, Vec3D const &direction);
-    Ray(Vec3D const &origin, Vec3D const &direction, VPO &m_VPO);
+    Ray(Vec3D const &origin, Vec3D  &direction, VPO &m_VPO);
     Ray(float xStart, float yStart, VPO &m_VPO);
 
     int scan();

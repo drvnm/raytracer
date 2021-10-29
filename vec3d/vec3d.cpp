@@ -34,8 +34,13 @@ Vec3D Vec3D::operator-(Vec3D const &other) const
 {
     return Vec3D(m_x - other.m_x, m_y - other.m_y, m_z - other.m_z);
 }
+Vec3D Vec3D::operator-(float other) const
+{
+    return Vec3D(m_x - other, m_y - other, m_z - other);
+}
 
-Vec3D Vec3D::operator*(float scalar) const {
+Vec3D Vec3D::operator*(float scalar) const
+{
     return Vec3D(m_x * scalar, m_y * scalar, m_z * scalar);
 }
 
@@ -44,7 +49,7 @@ Vec3D Vec3D::operator/(float scalar)
     return Vec3D(m_x / scalar, m_y / scalar, m_z / scalar);
 }
 
-bool Vec3D::operator==(const Vec3D &other) const 
+bool Vec3D::operator==(const Vec3D &other) const
 {
     return m_x == other.m_x && m_y == other.m_y && m_z == other.m_z;
 }
@@ -60,12 +65,13 @@ float Vec3D::dot(Vec3D const &other) const
     return m_x * other.m_x + m_y * other.m_y + m_z * other.m_z;
 }
 
-Vec3D Vec3D::cross(Vec3D const &other) 
+Vec3D Vec3D::cross(Vec3D const &other)
 {
     return Vec3D(m_y * other.m_z - m_z * other.m_y, m_z * other.m_x - m_x * other.m_z, m_x * other.m_y - m_y * other.m_x);
 }
 
-Vec3D Vec3D::unit() {
+Vec3D Vec3D::unit()
+{
     float length = norm();
     return Vec3D(m_x / length, m_y / length, m_z / length);
 }

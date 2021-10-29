@@ -5,7 +5,10 @@
 #include "../object/object.hpp"
 
 Ray::Ray(Vec3D const &origin, Vec3D const &direction) : m_origin(origin), m_direction(direction) {}
-Ray::Ray(Vec3D const &origin, Vec3D const &direction, VPO &VPO) : m_origin(origin), m_direction(direction), m_VPO(VPO) {}
+Ray::Ray(Vec3D const &origin, Vec3D &direction, VPO &VPO) : m_origin(origin), m_direction(direction), m_VPO(VPO)
+{
+    m_direction = direction.unit();
+}
 Ray::Ray(float xStart, float yStart, VPO &VPO) : m_VPO(VPO) {}
 int Ray::scan()
 {

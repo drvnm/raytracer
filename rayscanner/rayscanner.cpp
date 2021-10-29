@@ -21,9 +21,10 @@ void RayScanner::scan()
             // std::cout << "i: " << ii << " j: " << jj << std::endl;
             // int ii = i;
             // int jj = j;
+
             Vec3D endPoint = Vec3D(-200 + j, 0, 200 - i);
 
-            Vec3D origin = Vec3D(0, -400, 200);
+            Vec3D origin = Vec3D(0, -500, 20);
             Vec3D dir = endPoint - origin;
 
             Ray startPoint = Ray(origin, dir, m_objects);
@@ -36,7 +37,7 @@ void RayScanner::scan()
             }
             else if (intensity == 1)
             {
-                m_screenBuffer[i][j] = "lll";
+                m_screenBuffer[i][j] = "LLL";
             }
             else if (intensity == 2)
             {

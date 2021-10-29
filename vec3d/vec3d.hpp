@@ -15,6 +15,7 @@ public:
     Vec3D minus();
     Vec3D operator+(Vec3D const &v) const;
     Vec3D operator-(Vec3D const &v) const;
+    Vec3D operator-(float other) const;
     Vec3D operator*(float scalar) const;
     friend Vec3D operator*(float scalar, Vec3D self) {
         return self * scalar;
