@@ -18,20 +18,23 @@ Ray::Ray(float xStart, float yStart, VPO &VPO) : m_VPO(VPO) {}
 
 int Ray::scan()
 {
-    // recursive ray
-    Vec3D direction = m_direction;
-    Vec3D origin = m_origin;
+    int bounces = 3;
     int intensity = 0;
+
     for (Object *obOuter : m_VPO)
     {
-        for (Object *obOuter : m_VPO)
+        if (obOuter->hit(*this))
         {
-            if(obOuter->hit(*this)) {
-                intensity += obOuter->intensity;
+            intensity += obOuter->intensity;
+            for (Object *obInner : m_VPO)
+            {
+
+                if (obInner->hit(*this))
+                {
+                    intensity += obInner->intensity;
+                }
             }
         }
-        m_origin = origin;
-        m_direction = direction;
     }
     return intensity;
 }

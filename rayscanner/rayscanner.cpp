@@ -2,6 +2,7 @@
 #include "../ray/ray.hpp"
 #include "../sphere/sphere.hpp"
 #include <iostream>
+#include <algorithm>
 #define SCREEN_WIDTH 400
 #define SREEN_LENGTH 400
 
@@ -24,39 +25,20 @@ void RayScanner::scan()
             // int jj = j;
 
             Vec3D endPoint = Vec3D(-200 + j, 0, 200 - i);
-            Vec3D origin = Vec3D(0, -600, 20);
-            // (endPoint - origin).show("Top left corner");
-            // endPoint = Vec3D(200, 0, 200);
-            // (endPoint - origin).show("Top right corner");
-            // endPoint = Vec3D(-200, 0, -200);
-            // (endPoint - origin).show("Bottom left corner");
-            // endPoint = Vec3D(200, 0, -200);
-            // (endPoint - origin).show("Bottom right corner");
-            // endPoint = Vec3D(0, 0, 0);
-            // (endPoint - origin).show("Center");
+            Vec3D origin = Vec3D(0, -600, 30);
 
             Vec3D dir = endPoint - origin;
-            // Ray testray = Ray(origin, dir);
-            // testray.m_direction.show("first direction ray: ");
-            // Sphere testsphere = Sphere(Vec3D(1, 10, 0), 3);
-            // Sphere testsphere2 = Sphere(Vec3D(-1, -10, 0), 3);
-
-            // testsphere.hit(testray);
-            // testray.m_direction.show("bounced direction ray: ");
-            // testsphere2.hit(testray);
-            // testray.m_direction.show("bounced direction ray (2): ");
-            // testsphere.hit(testray);
-            // testray.m_direction.show("bounced direction ray (3): ");
-            // testsphere2.hit(testray);
-            // testray.m_direction.show("bounced direction ray (4): ");
-
 
             Ray startPoint = Ray(origin, dir, m_objects);
 
             int intensity = startPoint.scan();
             // m_screenBuffer[i][j] = intensity;
-            if (intensity == 0)
-            {
+           
+            // std::cout << intensity;
+
+
+            // THIS IS JUST FOR TESTING PURPOSES!!!!
+            if(intensity == 0) {
                 m_screenBuffer[i][j] = "   ";
             }
             else if (intensity == 1)
@@ -69,13 +51,34 @@ void RayScanner::scan()
             }
             else if (intensity == 3)
             {
-                m_screenBuffer[i][j] = "\u001b[30mKKK\033[0m";
+                m_screenBuffer[i][j] = "KKK";
             }
             else if (intensity == 4)
             {
                 m_screenBuffer[i][j] = "TTT";
             }
+            else if (intensity == 5)
+            {
+                m_screenBuffer[i][j] = "UUU";
+            }
+            else if (intensity == 6)
+            {
+                m_screenBuffer[i][j] = "VVV";
+            }
+            else if (intensity == 7)
+            {
+                m_screenBuffer[i][j] = "WWW";
+            }
+            else if (intensity == 8)
+            {
+                m_screenBuffer[i][j] = "XXX";
+            }
+            else if (intensity == 9)
+            {
+                m_screenBuffer[i][j] = "YYY";
+            }
         }
+        std::cout << "\n";
     }
     // 𝙺𝙼𝚁𝙽𝚃
 }

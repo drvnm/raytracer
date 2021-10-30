@@ -17,7 +17,6 @@ Floor::Floor()
 {
     m_type = "Floor";
     intensity = 2;
-
 }
 
 bool Floor::hit(Ray &ray) const
@@ -26,7 +25,10 @@ bool Floor::hit(Ray &ray) const
     Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
     if (t > 0)
     {
-
+        Vec3D normal = (Vec3D(0, 0, 1));
+        Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
+        // ray.m_origin = scaledVector;
+        // ray.m_direction = reflect;
         return (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
     }
 
