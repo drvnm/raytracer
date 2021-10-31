@@ -49,13 +49,14 @@ Color Ray::scan()
 
     if (obOuter->hit(*this))
     {
+        bounces = bounces + 1;
         color = Color(obOuter->m_color.m_r, obOuter->m_color.m_g, obOuter->m_color.m_b);
 
         for (Object *obInner : m_VPO)
         {
-            bounces = bounces + 1;
             if (obInner->hit(*this))
             {
+                bounces = bounces + 1;
                 int r = obInner->m_color.m_r;
                 int g = obInner->m_color.m_g;
                 int b = obInner->m_color.m_b;

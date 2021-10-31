@@ -24,7 +24,7 @@ void RayScanner::scan()
         {
 
             Vec3D endPoint = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
-            Vec3D origin = Vec3D(0, -600, 200);
+            Vec3D origin = Vec3D(-(SCREEN_WIDTH / 2) + j, -600, (SCREEN_WIDTH / 2) - i);
             Vec3D dir = endPoint - origin;
             Ray startPoint = Ray(origin, dir, m_objects);
 
