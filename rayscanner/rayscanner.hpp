@@ -10,7 +10,7 @@ class RayScanner
 {
 public:
     VPO m_objects;
-    std::vector<std::vector<std::string>> m_screenBuffer = std::vector<std::vector<std::string>>(400, std::vector<std::string>(400));
+    std::vector<std::vector<int>> m_screenBuffer = std::vector<std::vector<int>>(3000, std::vector<int>(3000));
 
     RayScanner(VPO objects);
     void scan();

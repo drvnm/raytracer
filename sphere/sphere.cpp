@@ -6,19 +6,28 @@
 #include <cmath>
 
 // ray constructor
-Sphere::Sphere(const Vec3D &centre, float radius)
-    : m_centre(centre), m_radius(radius)
+Sphere::Sphere(const Vec3D &centre, float radius, int zIndex, const Color &color)
 {
+    m_centre = centre;
+    m_radius = radius;
     m_type = "Sphere";
     intensity = 1;
+    m_zIndex = zIndex;
+    m_color = color;
 }
 
 // returns distance from center to ray
-float Sphere::distFromRay(const Ray &ray) const
+float Sphere::distFromRay(Ray &ray) const
 {
-    return std::sqrt(std::pow(m_centre.m_x - ray.m_direction.m_x, 2) +
-                     std::pow(m_centre.m_y - ray.m_direction.m_y, 2) +
-                     std::pow(m_centre.m_z - ray.m_direction.m_z, 2));
+    Vec3D origin = ray.m_origin;
+    Vec3D point = hitPoint(ray);
+    if (point.m_x == 0 && point.m_y == 0 && point.m_z == 0)
+    {
+        return -1;
+    }
+    return std::sqrt(std::pow(point.m_x - origin.m_x, 2) +
+                     std::pow(point.m_y - origin.m_y, 2) +
+                     std::pow(point.m_z - origin.m_z, 2));
 }
 
 bool Sphere::hit(Ray &ray) const
