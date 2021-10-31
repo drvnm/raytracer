@@ -23,9 +23,9 @@ int main()
     Floor f = Floor(0, white);
 
     std::vector<Object *> objects;
-    Sphere sphere1 = Sphere(Vec3D(500, 50, 500), 50, 1, Color(154, 255, 215));
+    Sphere sphere1 = Sphere(Vec3D(1500, 50, 500), 300, 1, Color(154, 255, 215));
     Sphere sphere2 = Sphere(Vec3D(0, 50, 500), 300, 1, Color(255, 99, 71));
-    Sphere sphere3 = Sphere(Vec3D(-500, 10, 500), 50, 1, white);
+    Sphere sphere3 = Sphere(Vec3D(-1500, 10, 500), 300, 1, white);
 
     objects.push_back(&f);
     objects.push_back(&sphere1);
