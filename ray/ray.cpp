@@ -2,9 +2,9 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <cmath>
 #include "../vec3d/vec3d.hpp"
 #include "../object/object.hpp"
-#include ".."
 
 Ray::Ray(Vec3D const &origin, Vec3D &direction) : m_origin(origin), m_direction(direction)
 {
@@ -18,37 +18,30 @@ Ray::Ray(Vec3D const &origin, Vec3D &direction, VPO &VPO) : m_origin(origin), m_
 }
 Ray::Ray(float xStart, float yStart, VPO &VPO) : m_VPO(VPO) {}
 
-bool my_cmp(Object *&a, Object *&b)
+Color Ray::scan()
 {
-    // smallest comes first
-    return a->m_zIndex < b->m_zIndex;
-}
-
-// std::sort(A.begin(), A.end(), my_cmp);
-
-int Ray::scan()
-{
-
 
     // z ordering
     std::vector<float> lengths;
     for (int i = 0; i < m_VPO.size(); i++)
     {
         float distance = m_VPO[i]->distFromRay(*this);
-        if(distance == -1) {
+        if (distance == -1)
+        {
             lengths.push_back(1000000.0);
             continue;
         }
         lengths.push_back(m_VPO[i]->distFromRay(*this));
     }
     int clostestObject = std::distance(std::begin(lengths), std::min_element(std::begin(lengths), std::end(lengths)));
-    if(lengths[clostestObject] == 1000000.0) {
-        return 0;
+    if (lengths[clostestObject] == 1000000.0)
+    {
+        return Color(0, 0, 0);
     }
 
-
     // reflection
-    int intensity = 0;
+    Color color;
+    int bounces = 0;
     Vec3D direction = m_direction;
     Vec3D origin = m_origin;
 
@@ -56,16 +49,20 @@ int Ray::scan()
 
     if (obOuter->hit(*this))
     {
-        intensity += obOuter->intensity;
+        color = Color(obOuter->m_color.m_r, obOuter->m_color.m_g, obOuter->m_color.m_b);
+
         for (Object *obInner : m_VPO)
         {
-
+            bounces = bounces + 1;
             if (obInner->hit(*this))
             {
-                intensity += obInner->intensity;
+                int r = obInner->m_color.m_r;
+                int g = obInner->m_color.m_g;
+                int b = obInner->m_color.m_b;
+                color = Color(color.m_r + r, color.m_g + g, color.m_b + b);
             }
         }
     }
 
-    return intensity;
+    return Color(std::round(color.m_r / bounces), std::round(color.m_g / bounces), std::round(color.m_b / bounces));
 }

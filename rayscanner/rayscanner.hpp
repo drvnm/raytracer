@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../object/object.hpp"
+#include "../color/color.hpp"
 #include <vector>
 #include <string>
 
@@ -10,8 +11,7 @@ class RayScanner
 {
 public:
     VPO m_objects;
-    std::vector<std::vector<int>> m_screenBuffer = std::vector<std::vector<int>>(3000, std::vector<int>(3000));
-
+    std::vector<std::vector<Color>> m_screenBuffer = std::vector<std::vector<Color>>(3000, std::vector<Color>(3000));
     RayScanner(VPO objects);
     void scan();
     void render();

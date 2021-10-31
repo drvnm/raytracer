@@ -2,18 +2,20 @@
 
 class Color
 {
-    int m_R;
-    int m_G;
-    int m_B;
 
 public:
+    int m_r;
+    int m_g;
+    int m_b;
+    
     Color(int R, int G, int B)
     {
-        m_R = R;
-        m_G = G;
-        m_B = B;
+        m_r = R;
+        m_g = G;
+        m_b = B;
+    }
+    Color() {
+        
     }
 
-    Color();
-    ~Color();
 };

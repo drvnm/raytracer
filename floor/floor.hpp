@@ -9,7 +9,6 @@
 class Floor : public Object
 {
 public:
-    Color m_color;
     Floor(int zIndex, const Color &color);
     bool hit(Ray &ray) const;
     float distFromRay(Ray &ray) const;

@@ -11,7 +11,7 @@ class Sphere : public Object
 public:
     Vec3D m_centre;
     float m_radius;
-    Color m_color;
+ 
 
     Sphere(Vec3D const &centre, float radius, int zIndex, Color const &color);
     float distFromRay(Ray &ray) const;

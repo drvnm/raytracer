@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "../vec3d/vec3d.hpp"
-
+#include "../color/color.hpp"
 class Object;
 typedef std::vector<Object *> VPO;
 
@@ -16,6 +16,6 @@ public:
     Ray(Vec3D const &origin, Vec3D &direction, VPO &m_VPO);
     Ray(float xStart, float yStart, VPO &m_VPO);
 
-    int scan();
+    Color scan();
    
 };
