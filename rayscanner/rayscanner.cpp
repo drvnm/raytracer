@@ -24,7 +24,7 @@ void RayScanner::scan()
         {
 
             Vec3D endPoint = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
-            Vec3D origin = Vec3D(0, -600, 200);
+            Vec3D origin = Vec3D(0, -1700, 200);
             Vec3D dir = endPoint - origin;
             Ray startPoint = Ray(origin, dir, m_objects);
 
@@ -33,6 +33,28 @@ void RayScanner::scan()
         }
     }
 }
+
+// void RayScanner::scanLight(Sphere &sphere)
+// {
+//     for (int i = 0; i < SREEN_LENGTH; i++)
+//     {
+//         for (int j = 0; j < SCREEN_WIDTH; j++)
+//         {
+
+//             Vec3D origin = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
+//             Vec3D dir = sphere.m_centre - origin;
+//             Ray direction = Ray(origin, dir);
+//             for (int k = 0; k < m_objects.size(); k++)
+//             {
+//                 if (m_objects[k]->hit(direction) && m_objects[k]->m_type != "light")
+//                 {
+//                     m_screenBuffer[i][j] = Color(m_screenBuffer[i][j].m_r * 0.5, m_screenBuffer[i][j].m_g * 0.5, m_screenBuffer[i][j].m_b * 0.5);
+//                     break;
+//                 }
+//             }
+//         }
+//     }
+// }
 
 void RayScanner::render()
 {

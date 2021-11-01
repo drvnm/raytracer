@@ -20,19 +20,22 @@ int main()
     Color blue = Color(0, 0, 255);
     Color black = Color(0, 0, 0);
     Color white = Color(255, 255, 255);
+    Sphere light = Sphere(Vec3D(0, 50, 100), 20, 1, white, "light");
+
     Floor f = Floor(0, white);
 
     std::vector<Object *> objects;
-    Sphere sphere1 = Sphere(Vec3D(1500, 50, 500), 300, 1, Color(154, 255, 215));
-    Sphere sphere2 = Sphere(Vec3D(0, 50, 500), 300, 1, Color(255, 99, 71));
-    Sphere sphere3 = Sphere(Vec3D(-1500, 10, 500), 300, 1, white);
+    Sphere sphere1 = Sphere(Vec3D(900, 50, 500), 100, 1, Color(154, 255, 215), "sphere");
+    Sphere sphere2 = Sphere(Vec3D(0, 50, 500), 300, 1, Color(255, 99, 71), "sphere");
+    Sphere sphere3 = Sphere(Vec3D(-900, 10, 500), 100, 1, white, "sphere");
 
-    objects.push_back(&f);
     objects.push_back(&sphere1);
     objects.push_back(&sphere3);
     objects.push_back(&sphere2);
+    objects.push_back(&f);
 
     RayScanner scanner = RayScanner(objects);
     scanner.scan();
+    // scanner.scanLight(light);
     scanner.render();
 }

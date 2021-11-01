@@ -38,18 +38,40 @@ float Floor::distFromRay(Ray &ray) const
                      std::pow(point.m_z - origin.m_z, 2));
 }
 
-bool Floor::hit(Ray &ray) const
+Info Floor::hit(Ray &ray) const
 {
+    Info info;
     float t = (-ray.m_origin.m_z / ray.m_direction.m_z);
     Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
+    Vec3D normal = (Vec3D(0, 0, 1));
     if (t > 0)
     {
-        Vec3D normal = (Vec3D(0, 0, 1));
         Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
         ray.m_origin = scaledVector;
         ray.m_direction = reflect;
-        return (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
+        bool hitt = (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
+        info = Info(t, hitt, scaledVector, normal, m_color);
+        return info;
     }
 
+    info = Info(t, false, scaledVector, normal, m_color);
+    return info;
+}
+bool Floor::hitLight(Ray &ray) const
+{
+    Info info;
+    float t = (-ray.m_origin.m_z / ray.m_direction.m_z);
+    Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
+    Vec3D normal = (Vec3D(0, 0, 1));
+    if (t > 0)
+    {
+        // Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
+        // ray.m_origin = scaledVector;
+        // ray.m_direction = reflect;
+        bool hitt = (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
+        return hitt;
+    }
+
+    // info = Info(t, false, scaledVector, normal, m_color);
     return false;
 }

@@ -4,6 +4,7 @@
 #include "../ray/ray.hpp"
 #include "../object/object.hpp"
 #include "../color/color.hpp"
+#include "../returninfo/info.hpp"
 
 class Sphere : public Object
 {
@@ -13,8 +14,9 @@ public:
     float m_radius;
  
 
-    Sphere(Vec3D const &centre, float radius, int zIndex, Color const &color);
+    Sphere(Vec3D const &centre, float radius, int zIndex, Color const &color, std::string type);
     float distFromRay(Ray &ray) const;
-    bool hit(Ray &ray) const;
+    Info hit(Ray &ray) const;
+    bool hitLight(Ray &ray) const;
     Vec3D hitPoint(Ray const &ray) const;
 };

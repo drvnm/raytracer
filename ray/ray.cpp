@@ -5,6 +5,7 @@
 #include <cmath>
 #include "../vec3d/vec3d.hpp"
 #include "../object/object.hpp"
+#include "../sphere/sphere.hpp"
 
 Ray::Ray(Vec3D const &origin, Vec3D &direction) : m_origin(origin), m_direction(direction)
 {
@@ -20,6 +21,8 @@ Ray::Ray(float xStart, float yStart, VPO &VPO) : m_VPO(VPO) {}
 
 Color Ray::scan()
 {
+
+    Sphere light = Sphere(Vec3D(0, 50, 1200), 2, 1, Color(255, 255, 255), "light");
 
     // z ordering
     std::vector<float> lengths;
@@ -47,14 +50,15 @@ Color Ray::scan()
 
     Object *obOuter = m_VPO[clostestObject];
 
-    if (obOuter->hit(*this))
+    Info hitInfo = obOuter->hit(*this);
+    if (hitInfo.m_hit)
     {
         bounces = bounces + 1;
         color = Color(obOuter->m_color.m_r, obOuter->m_color.m_g, obOuter->m_color.m_b);
 
         for (Object *obInner : m_VPO)
         {
-            if (obInner->hit(*this))
+            if (obInner->hit(*this).m_hit)
             {
                 bounces = bounces + 1;
                 int r = obInner->m_color.m_r;
@@ -65,5 +69,21 @@ Color Ray::scan()
         }
     }
 
-    return Color(std::round(color.m_r / bounces), std::round(color.m_g / bounces), std::round(color.m_b / bounces));
+    color = Color(std::round(color.m_r / bounces), std::round(color.m_g / bounces), std::round(color.m_b / bounces));
+    if (obOuter->m_type == "Floor")
+    {
+        for (Object *obInner : m_VPO)
+        {
+            Vec3D origin = hitInfo.m_coord;
+            Vec3D direction = light.m_centre - origin;
+            Ray lightRay(origin, direction);
+
+            if (obInner->hitLight(lightRay) && obInner->m_type != "light")
+            {
+
+                color = Color(color.m_r * 0.5, color.m_g * 0.5, color.m_b * 0.5);
+            }
+        }
+    }
+    return color;
 }
