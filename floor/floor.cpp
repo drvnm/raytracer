@@ -47,7 +47,8 @@ Info Floor::hit(Ray &ray) const
     if (t > 0)
     {
         Vec3D hitPoint = ray.m_origin + (ray.m_direction * t);
-        info = Info(t, true, hitPoint, normal, m_color, m_type);
+        bool passesThrough = (int)(floor(hitPoint.m_x / 20) + floor(hitPoint.m_y / 20)) % 2 == 0;
+        info = Info(t, passesThrough, hitPoint, normal, m_color, m_type);
     }
     return info;
 }

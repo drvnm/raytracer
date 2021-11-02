@@ -10,6 +10,11 @@
 #define SCREEN_WIDTH 3000
 #define SREEN_LENGTH 3000
 
+float lerp(float a, float b, float t)
+{
+    return a + t * (b - a);
+}
+
 RayScanner::RayScanner(VPO objects) : m_objects(objects)
 {
 }
@@ -30,7 +35,7 @@ void RayScanner::scan()
 
             Info bestHit = startPoint.scan();
             Vec3D light = Vec3D(0, 0, 1).unit();
-            int bounce = 2;
+            int bounce = 5;
             m_screenBuffer[i][j] = giveMeColorPls(bestHit, light, dir, bounce);
             // m_screenBuffer[i][j] = Color(std::round(lightColor.m_r / bounce), std::round(lightColor.m_g / bounce), std::round(lightColor.m_b / bounce));
         }
@@ -76,9 +81,12 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
             {
                 temp = Color(0, 0, 0);
             }
-            color = Color(std::round((color.m_r + temp.m_r) / 2),
-                          std::round((color.m_g + temp.m_g) / 2),
-                          std::round((color.m_b + temp.m_b) / 2));
+            // float percentage = (reflectedHit.m_type == "Floor") ? 0.6f : 0.13f;
+            float percentage = 0.20f;
+
+            color = Color(std::round(lerp(color.m_r, temp.m_r, percentage)),
+                          std::round(lerp(color.m_g, temp.m_g, percentage)),
+                          std::round(lerp(color.m_b, temp.m_b, percentage)));
         }
     }
 
