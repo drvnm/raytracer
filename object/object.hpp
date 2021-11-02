@@ -20,5 +20,4 @@ public:
     Object(Vec3D const &v);
     virtual Info hit(Ray &ray) const = 0;
     virtual float distFromRay(Ray &ray) const = 0;
-    virtual bool hitLight(Ray &ray) const = 0;
 };

@@ -1,5 +1,6 @@
 #include "sphere.hpp"
 #include "../vec3d/vec3d.hpp"
+#include <limits>
 #include "../ray/ray.hpp"
 #include <iostream>
 #include <algorithm>
@@ -32,81 +33,31 @@ float Sphere::distFromRay(Ray &ray) const
 
 Info Sphere::hit(Ray &ray) const
 {
-
-    // reflect the Ray on the hitpoint on the Sphere
-    Info info;
-    Vec3D hitpoint = hitPoint(ray);
-    Vec3D normal = hitpoint - m_centre;
-    normal = normal.unit();
+    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), Vec3D(0, 0, 0), m_color, "Nothing");
 
     Vec3D v = ray.m_origin - m_centre;
+
     float a = ray.m_direction.dot(ray.m_direction);
     float b = 2 * v.dot(ray.m_direction);
     float c = (v.dot(v)) - (m_radius * m_radius);
 
     float discriminant = b * b - 4 * a * c;
-    float t1 = (-b - std::sqrt(discriminant)) / (2 * a);
-    float t2 = (-b + std::sqrt(discriminant)) / (2 * a);
-    float t = std::min(std::abs(t1), std::abs(t2));
 
-    if (discriminant < 0)
+    if (discriminant >= 0)
     {
-        info = Info(t, false, Vec3D(0, 0, 0), normal, m_color);
-        return info;
+        float t1 = (-b - std::sqrt(discriminant)) / (2 * a);
+        float t2 = (-b + std::sqrt(discriminant)) / (2 * a);
+        float t = std::min(t1, t2);
+        if (t < 0)
+        {
+            t = std::max(t1, t2);
+        }
+        Vec3D hitpoint = ray.m_origin + (ray.m_direction * t);
+        Vec3D normal = (hitpoint - m_centre).unit();
+        info = Info(t, true, hitpoint, normal, m_color, m_type);
     }
-    else if (t1 < 0 || t2 < 0)
-    {
-        info = Info(t, false, Vec3D(0, 0, 0), normal, m_color);
-        return info;
-    }
-    else
-    {
-      
-        Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
-        ray.m_origin = hitpoint + (0.001 * reflect);
-        ray.m_direction = reflect;
-        info = Info(t, true, hitpoint, normal, m_color);
-
-        return info;
-    }
+    return info;
 }
-bool Sphere::hitLight(Ray &ray) const
-{
-
-    // reflect the Ray on the hitpoint on the Sphere
-    Info info;
-    Vec3D hitpoint = hitPoint(ray);
-    Vec3D normal = hitpoint - m_centre;
-    normal = normal.unit();
-
-    Vec3D v = ray.m_origin - m_centre;
-    float a = ray.m_direction.dot(ray.m_direction);
-    float b = 2 * v.dot(ray.m_direction);
-    float c = (v.dot(v)) - (m_radius * m_radius);
-
-    float discriminant = b * b - 4 * a * c;
-    float t1 = (-b - std::sqrt(discriminant)) / (2 * a);
-    float t2 = (-b + std::sqrt(discriminant)) / (2 * a);
-    float t = std::min(std::abs(t1), std::abs(t2));
-
-    if (discriminant < 0)
-    {
-        // info = I?nfo(t, false, Vec3D(0, 0, 0), normal, m_color);
-        return false;
-    }
-    else if (t1 < 0 || t2 < 0)
-    {
-        // info = Info(t, false, Vec3D(0, 0, 0), normal, m_color);
-        return false;
-    }
-    else
-    {
-      
-        return true;
-
-    }
-}
-
 // Returns the point where the ray intersects the sphere
 Vec3D Sphere::hitPoint(Ray const &ray) const
 {

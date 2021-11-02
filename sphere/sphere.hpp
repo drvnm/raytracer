@@ -17,6 +17,5 @@ public:
     Sphere(Vec3D const &centre, float radius, int zIndex, Color const &color, std::string type);
     float distFromRay(Ray &ray) const;
     Info hit(Ray &ray) const;
-    bool hitLight(Ray &ray) const;
     Vec3D hitPoint(Ray const &ray) const;
 };

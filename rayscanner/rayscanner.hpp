@@ -3,6 +3,8 @@
 #include "../object/object.hpp"
 #include "../sphere/sphere.hpp"
 #include "../color/color.hpp"
+#include "../returnInfo/info.hpp"
+
 #include <vector>
 #include <string>
 
@@ -17,4 +19,5 @@ public:
     void scan();
     // void scanLight(Sphere &sphere);
     void render();
+    Color giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, int bounce);
 };

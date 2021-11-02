@@ -7,6 +7,7 @@
 
 #include "../Vec3D/vec3d.hpp"
 
+#include <limits>
 #include <vector>
 #include <algorithm>
 #include <cmath>
@@ -37,41 +38,16 @@ float Floor::distFromRay(Ray &ray) const
                      std::pow(point.m_y - origin.m_y, 2) +
                      std::pow(point.m_z - origin.m_z, 2));
 }
-
 Info Floor::hit(Ray &ray) const
 {
-    Info info;
-    float t = (-ray.m_origin.m_z / ray.m_direction.m_z);
-    Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
     Vec3D normal = (Vec3D(0, 0, 1));
+    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), normal, m_color, "Nothing");
+    float z = 0;
+    float t = (z - ray.m_origin.m_z / ray.m_direction.m_z);
     if (t > 0)
     {
-        Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
-        ray.m_origin = scaledVector;
-        ray.m_direction = reflect;
-        bool hitt = (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
-        info = Info(t, hitt, scaledVector, normal, m_color);
-        return info;
+        Vec3D hitPoint = ray.m_origin + (ray.m_direction * t);
+        info = Info(t, true, hitPoint, normal, m_color, m_type);
     }
-
-    info = Info(t, false, scaledVector, normal, m_color);
     return info;
-}
-bool Floor::hitLight(Ray &ray) const
-{
-    Info info;
-    float t = (-ray.m_origin.m_z / ray.m_direction.m_z);
-    Vec3D scaledVector = ray.m_origin + (ray.m_direction * t);
-    Vec3D normal = (Vec3D(0, 0, 1));
-    if (t > 0)
-    {
-        // Vec3D reflect = (ray.m_direction - (2 * ray.m_direction.dot(normal) * normal)).unit();
-        // ray.m_origin = scaledVector;
-        // ray.m_direction = reflect;
-        bool hitt = (int)(floor(scaledVector.m_x / 20) + floor(scaledVector.m_y / 20)) % 2 == 0;
-        return hitt;
-    }
-
-    // info = Info(t, false, scaledVector, normal, m_color);
-    return false;
 }

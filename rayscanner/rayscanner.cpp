@@ -24,37 +24,66 @@ void RayScanner::scan()
         {
 
             Vec3D endPoint = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
-            Vec3D origin = Vec3D(0, -1700, 200);
+            Vec3D origin = Vec3D(0, -1700, 600);
             Vec3D dir = endPoint - origin;
             Ray startPoint = Ray(origin, dir, m_objects);
 
-            Color color = startPoint.scan();
-            m_screenBuffer[i][j] = color;
+            Info bestHit = startPoint.scan();
+            Vec3D light = Vec3D(0, 0, 1).unit();
+            int bounce = 2;
+            m_screenBuffer[i][j] = giveMeColorPls(bestHit, light, dir, bounce);
+            // m_screenBuffer[i][j] = Color(std::round(lightColor.m_r / bounce), std::round(lightColor.m_g / bounce), std::round(lightColor.m_b / bounce));
         }
     }
 }
 
-// void RayScanner::scanLight(Sphere &sphere)
-// {
-//     for (int i = 0; i < SREEN_LENGTH; i++)
-//     {
-//         for (int j = 0; j < SCREEN_WIDTH; j++)
-//         {
+Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, int bounce)
 
-//             Vec3D origin = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
-//             Vec3D dir = sphere.m_centre - origin;
-//             Ray direction = Ray(origin, dir);
-//             for (int k = 0; k < m_objects.size(); k++)
-//             {
-//                 if (m_objects[k]->hit(direction) && m_objects[k]->m_type != "light")
-//                 {
-//                     m_screenBuffer[i][j] = Color(m_screenBuffer[i][j].m_r * 0.5, m_screenBuffer[i][j].m_g * 0.5, m_screenBuffer[i][j].m_b * 0.5);
-//                     break;
-//                 }
-//             }
-//         }
-//     }
-// }
+{
+
+    Color color = Color(0, 0, 0);
+    if (bestHit.m_hit)
+    {
+
+        // directional light
+        color = bestHit.m_color;
+        Vec3D normal = bestHit.m_normal.unit();
+        lightDir = lightDir;
+        float dotResult = normal.dot(lightDir);
+        float lightIntensity = std::min(std::max(dotResult, 0.0f), 1.0f);
+        color = Color(color.m_r * lightIntensity, color.m_g * lightIntensity, color.m_b * lightIntensity);
+
+        // shadow casting
+        Ray lightDirRay = Ray(bestHit.m_coord + (0.003 * lightDir), lightDir, m_objects);
+        Info lightHit = lightDirRay.scan();
+        if (lightHit.m_hit)
+        {
+            color = Color(0, 0, 0);
+        }
+
+        // recursively casting
+        if (bounce > 0)
+        {
+            Vec3D reflectedDir = direction - (2 * (direction.dot(normal)) * normal);
+            Ray reflectedRay = Ray(bestHit.m_coord + (0.003 * reflectedDir), reflectedDir, m_objects);
+            Info reflectedHit = reflectedRay.scan();
+            Color temp;
+            if (reflectedHit.m_hit)
+            {
+                temp = giveMeColorPls(reflectedHit, lightDir, reflectedDir, bounce - 1);
+            }
+            else
+            {
+                temp = Color(0, 0, 0);
+            }
+            color = Color(std::round((color.m_r + temp.m_r) / 2),
+                          std::round((color.m_g + temp.m_g) / 2),
+                          std::round((color.m_b + temp.m_b) / 2));
+        }
+    }
+
+    return color;
+}
 
 void RayScanner::render()
 {
