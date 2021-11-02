@@ -7,8 +7,7 @@
 #include <cstdio>
 #include <cmath>
 #include <algorithm>
-#define SCREEN_WIDTH 3000
-#define SREEN_LENGTH 3000
+
 
 float lerp(float a, float b, float t)
 {
@@ -34,7 +33,7 @@ void RayScanner::scan()
             Ray startPoint = Ray(origin, dir, m_objects);
 
             Info bestHit = startPoint.scan();
-            Vec3D light = Vec3D(0, 0, 1).unit();
+            Vec3D light = Vec3D(1, -1, 1).unit();
             int bounce = 5;
             m_screenBuffer[i][j] = giveMeColorPls(bestHit, light, dir, bounce);
             // m_screenBuffer[i][j] = Color(std::round(lightColor.m_r / bounce), std::round(lightColor.m_g / bounce), std::round(lightColor.m_b / bounce));
@@ -82,7 +81,7 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
                 temp = Color(0, 0, 0);
             }
             // float percentage = (reflectedHit.m_type == "Floor") ? 0.6f : 0.13f;
-            float percentage = 0.20f;
+            float percentage = 0.5f;
 
             color = Color(std::round(lerp(color.m_r, temp.m_r, percentage)),
                           std::round(lerp(color.m_g, temp.m_g, percentage)),

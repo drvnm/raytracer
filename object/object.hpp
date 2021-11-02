@@ -14,7 +14,7 @@ public:
     std::string m_type;
     Color m_color;
     int intensity;
-    int m_zIndex;
+    int m_zIndex; 
     Vec3D m_centre;
     Object(){ };
     Object(Vec3D const &v);
