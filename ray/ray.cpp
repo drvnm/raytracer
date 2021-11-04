@@ -8,11 +8,10 @@
 #include "../object/object.hpp"
 #include "../sphere/sphere.hpp"
 
-Ray::Ray(Vec3D const &origin, Vec3D &direction) : m_origin(origin), m_direction(direction)
+Ray::Ray(Vec3D const &origin, Vec3D &direction) : m_origin(origin)
 {
-    {
-        m_direction = direction.unit();
-    }
+
+    m_direction = direction.unit();
 }
 Ray::Ray(Vec3D const &origin, Vec3D &direction, VPO &VPO) : m_origin(origin), m_VPO(VPO)
 {
@@ -29,7 +28,9 @@ Info Ray::scan()
         Vec3D(0, 0, 0),
         Vec3D(0, 0, 0),
         Color(0, 0, 0),
-        "Nothing");
+        "Nothing"); // info to return if there is no hit
+
+    // following loop will return the hit info about the closest hit, this will allow me to have z ordering.
     for (Object *obj : m_VPO)
     {
         Info hit_result = obj->hit(*this);

@@ -33,7 +33,7 @@ float Sphere::distFromRay(Ray &ray) const
 
 Info Sphere::hit(Ray &ray) const
 {
-    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), Vec3D(0, 0, 0), m_color, "Nothing");
+    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), Vec3D(0, 0, 0), m_color, "Nothing"); // default info
 
     Vec3D v = ray.m_origin - m_centre;
 
@@ -50,11 +50,11 @@ Info Sphere::hit(Ray &ray) const
         float t = std::min(t1, t2);
         if (t < 0)
         {
-            t = std::max(t1, t2);
+            t = std::max(t1, t2); // scalar that will be used to find the point of intersection
         }
         Vec3D hitpoint = ray.m_origin + (ray.m_direction * t);
         Vec3D normal = (hitpoint - m_centre).unit();
-        info = Info(t, true, hitpoint, normal, m_color, m_type);
+        info = Info(t, true, hitpoint, normal, m_color, m_type); // info to be returned
     }
     return info;
 }

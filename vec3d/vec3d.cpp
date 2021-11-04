@@ -54,6 +54,11 @@ bool Vec3D::operator==(const Vec3D &other) const
     return m_x == other.m_x && m_y == other.m_y && m_z == other.m_z;
 }
 
+Vec3D operator*(float scalar, Vec3D self)
+{
+    return self * scalar;
+}
+
 float Vec3D::norm()
 {
     float length = std::sqrt(std::pow(m_x, 2) + std::pow(m_y, 2) + std::pow(m_z, 2));

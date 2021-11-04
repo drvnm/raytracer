@@ -7,6 +7,21 @@
 #include <string>
 
 
+
+/* 
+REQUIREMENTS:
+I had to make a class that was could represent a object.
+
+TESTSPEC:
+I've tested my class with the following:
+Test the different methods
+
+Design:
+I have the same methods that were described in the assignment.
+I have also added a method that returns the distance from the object to the ray, every subclass must implement this method.
+The hit method again returns info.
+*/
+
 class Object
 {
 
@@ -15,9 +30,7 @@ public:
     Color m_color;
     int intensity;
     int m_zIndex; 
-    Vec3D m_centre;
-    Object(){ };
-    Object(Vec3D const &v);
+    Object();
     virtual Info hit(Ray &ray) const = 0;
     virtual float distFromRay(Ray &ray) const = 0;
 };

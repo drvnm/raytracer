@@ -40,14 +40,14 @@ float Floor::distFromRay(Ray &ray) const
 }
 Info Floor::hit(Ray &ray) const
 {
-    Vec3D normal = (Vec3D(0, 0, 1));
-    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), normal, m_color, "Nothing");
+    Vec3D normal = (Vec3D(0, 0, 1)); // this will always be the normal of the surface
+    Info info = Info(std::numeric_limits<float>::infinity(), false, Vec3D(0, 0, 0), normal, m_color, "Nothing"); // return if no hit
     float z = 0;
     float t = (z - ray.m_origin.m_z / ray.m_direction.m_z);
     if (t > 0)
     {
         Vec3D hitPoint = ray.m_origin + (ray.m_direction * t);
-        bool passesThrough = (int)(floor(hitPoint.m_x / 20) + floor(hitPoint.m_y / 20)) % 2 == 0;
+        bool passesThrough = (int)(floor(hitPoint.m_x / 20) + floor(hitPoint.m_y / 20)) % 2 == 0; // determines if the hit point is on the grid
         info = Info(t, passesThrough, hitPoint, normal, m_color, m_type);
     }
     return info;

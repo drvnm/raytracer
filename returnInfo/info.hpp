@@ -4,6 +4,19 @@
 #include <vector>
 #include <string>
 
+/* 
+REQUIREMENTS:
+This was not a requirement for the assignment, but it made sense to make this class.
+
+TESTSPEC:
+There is no testing here, since it will be uses by other classes.
+
+Design:
+I made the decision to make this class because it is a way to return multiple values from a function.
+
+*/
+
+
 class Info
 {
 public:
@@ -13,16 +26,7 @@ public:
     Vec3D m_normal;
     Color m_color;
     std::string m_type;
-    Info(float t, bool hit, Vec3D coord, Vec3D normal, Color color, std::string type)
-    {
-        m_t = t;
-        m_hit = hit;
-        m_coord = coord;
-        m_normal = normal;
-        m_color = color;
-        m_type = type;
-    }
-    Info()
-    {
-    }
+
+    Info(float t, bool hit, Vec3D coord, Vec3D normal, Color color, std::string type); // constructor
+    Info(); // default constructor
 };

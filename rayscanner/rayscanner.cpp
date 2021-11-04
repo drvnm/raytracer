@@ -8,7 +8,7 @@
 #include <cmath>
 #include <algorithm>
 
-
+// linear interpolation function
 float lerp(float a, float b, float t)
 {
     return a + t * (b - a);
@@ -20,23 +20,20 @@ RayScanner::RayScanner(VPO objects) : m_objects(objects)
 void RayScanner::scan()
 {
     // shoot a ray from the camera to the screen
-    // for each object in the scene, check if the ray intersects with the object
-
     for (int i = 0; i < SREEN_LENGTH; i++)
     {
         for (int j = 0; j < SCREEN_WIDTH; j++)
         {
 
-            Vec3D endPoint = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i);
-            Vec3D origin = Vec3D(0, -1700, 600);
+            Vec3D endPoint = Vec3D(-(SCREEN_WIDTH / 2) + j, 0, (SCREEN_WIDTH / 2) - i); // every point on my screen
+            Vec3D origin = Vec3D(0, -1700, 200);                                        // camera or "eye"
             Vec3D dir = endPoint - origin;
             Ray startPoint = Ray(origin, dir, m_objects);
 
-            Info bestHit = startPoint.scan();
-            Vec3D light = Vec3D(1, -1, 1).unit();
+            Info bestHit = startPoint.scan();     // returns information about the clostest hit
+            Vec3D light = Vec3D(1, -1, 1).unit(); // directional light vector!
             int bounce = 5;
             m_screenBuffer[i][j] = giveMeColorPls(bestHit, light, dir, bounce);
-            // m_screenBuffer[i][j] = Color(std::round(lightColor.m_r / bounce), std::round(lightColor.m_g / bounce), std::round(lightColor.m_b / bounce));
         }
     }
 }
@@ -45,7 +42,7 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
 
 {
 
-    Color color = Color(0, 0, 0);
+    Color color = Color(0, 0, 0); // color to use if there is no hit
     if (bestHit.m_hit)
     {
 
@@ -65,7 +62,7 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
             color = Color(0, 0, 0);
         }
 
-        // recursively casting
+        // recursively reflecting my ray, compute new color.
         if (bounce > 0)
         {
             Vec3D reflectedDir = direction - (2 * (direction.dot(normal)) * normal);
@@ -80,7 +77,6 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
             {
                 temp = Color(0, 0, 0);
             }
-            // float percentage = (reflectedHit.m_type == "Floor") ? 0.6f : 0.13f;
             float percentage = 0.5f;
 
             color = Color(std::round(lerp(color.m_r, temp.m_r, percentage)),
@@ -95,6 +91,7 @@ Color RayScanner::giveMeColorPls(Info bestHit, Vec3D lightDir, Vec3D direction, 
 void RayScanner::render()
 {
 
+    // writes the image to a BMP file.
     bitmap_image base(SCREEN_WIDTH, SREEN_LENGTH);
     for (int y = 0; y < SCREEN_WIDTH; y++)
     {
